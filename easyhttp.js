@@ -66,5 +66,5 @@ function statusOk(res){
         return res;
     } 
     
-    throw "Error: " + res.status;
+    throw new Error(res.status);
 }
