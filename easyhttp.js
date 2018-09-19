@@ -11,6 +11,7 @@ class EasyHTTP {
     // Make an HTTP GET request
     get(url) {
         return fetch(url)
+        .then(statusOk)
         .then(res => res.json())
         .then(data => data)
         .catch(err => err);
@@ -25,6 +26,7 @@ class EasyHTTP {
             },
             body: JSON.stringify(data)
         })
+        .then(statusOk)
         .then(res => res.json())
         .then(data => data)
         .catch(err => err);
@@ -39,6 +41,7 @@ class EasyHTTP {
             },
             body: JSON.stringify(data)
         })
+        .then(statusOk)
         .then(res => res.json())
         .then(data => data)
         .catch(err => err);
@@ -52,13 +55,16 @@ class EasyHTTP {
                 'Content-type': 'application/json'
             }
         })
-        .then(res => {
-            if(res.ok){
-                return 'Resource Deleted';
-            } else { 
-                throw new Error('Something went wrong');
-            }
-        })
-        .catch(err => Promise.reject(err));
+        .then(statusOk)
+        .then(() => 'User Deleted')
+        .catch(err => err);
     }
+}
+
+function statusOk(res){
+    if(res.ok){
+        return res;
+    } 
+    
+    throw "Error: " + res.status;
 }
